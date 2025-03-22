@@ -125,17 +125,17 @@ export default function TimerComponent({
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.avoidingView}
-    >
-      <View style={[styles.collectionContainer, styles.center]}>
-        <Modal animationType="slide" transparent={false} visible={modalVisible}>
-          <LinearGradient
-            colors={["#140B35", "#3f0072"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.screenBackground}
+    <View style={[styles.collectionContainer, styles.center]}>
+      <Modal animationType="slide" transparent={false} visible={modalVisible}>
+        <LinearGradient
+          colors={["#140B35", "#3f0072"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.screenBackground}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            style={styles.avoidingView}
           >
             <View style={[styles.modalView, styles.center, styles.primary]}>
               <View style={styles.removeButtonBox}>
@@ -191,39 +191,39 @@ export default function TimerComponent({
                 </View>
               </TouchableOpacity>
             </View>
-          </LinearGradient>
-        </Modal>
+          </KeyboardAvoidingView>
+        </LinearGradient>
+      </Modal>
 
-        <View style={styles.removeButtonBox}>
-          <TouchableOpacity
-            style={styles.removeButton}
-            onPress={() => removeTimer(TimerCollectionId, timerData.id)}
-          >
-            <Text>X</Text>
+      <View style={styles.removeButtonBox}>
+        <TouchableOpacity
+          style={styles.removeButton}
+          onPress={() => removeTimer(TimerCollectionId, timerData.id)}
+        >
+          <Text>X</Text>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity
+        style={[styles.collectionNameBox, styles.center]}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={[styles.titleText, styles.timerText, styles.center]}>
+          {timerData.name}: {timerFormatted}
+        </Text>
+      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <View style={styles.horzContainer}>
+          {stopButton()}
+          <TouchableOpacity onPress={handleStartPressed}>
+            <View style={[styles.standardButton]}>
+              <Text style={styles.standardTimerText}>
+                {timerData.state == "running" ? "Pause" : "Start"}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={[styles.collectionNameBox, styles.center]}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={[styles.titleText, styles.timerText, styles.center]}>
-            {timerData.name}: {timerFormatted}
-          </Text>
-        </TouchableOpacity>
-        <View style={styles.buttonContainer}>
-          <View style={styles.horzContainer}>
-            {stopButton()}
-            <TouchableOpacity onPress={handleStartPressed}>
-              <View style={[styles.standardButton]}>
-                <Text style={styles.standardTimerText}>
-                  {timerData.state == "running" ? "Pause" : "Start"}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <StatusBar style="auto" />
       </View>
-    </KeyboardAvoidingView>
+      <StatusBar style="auto" />
+    </View>
   );
 }
